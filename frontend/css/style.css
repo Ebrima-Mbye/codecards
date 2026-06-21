@@ -1,0 +1,225 @@
+/* ==========================================================================
+   CodeCards — Base Styles
+   Custom properties, reset, and shared layout primitives.
+   ========================================================================== */
+
+:root {
+  /* Color palette */
+  --color-bg: #0f1117;
+  --color-surface: #1a1d29;
+  --color-surface-alt: #232734;
+  --color-text: #e6e8ee;
+  --color-text-muted: #9aa0b0;
+  --color-primary: #4f8cff;
+  --color-primary-hover: #3a73e0;
+  --color-success: #3ddc84;
+  --color-danger: #ff5c5c;
+  --color-border: #2c2f3a;
+
+  /* Code card accent (the visual differentiator) */
+  --color-code-bg: #11141c;
+  --color-code-border: #3a3f52;
+  --color-code-text: #9ddcff;
+
+  /* Typography */
+  --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Consolas", "Monaco", "Courier New", monospace;
+  --font-size-base: 16px;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Misc */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --transition-fast: 150ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  font-size: var(--font-size-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--space-md) 0;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 var(--space-md) 0;
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.hero {
+  max-width: 640px;
+  margin: var(--space-xl) auto;
+  padding: 0 var(--space-md);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: #fff;
+}
+
+.btn-large {
+  padding: var(--space-md) var(--space-lg);
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   Forms (shared by login/register/dashboard)
+   ========================================================================== */
+
+.form-card {
+  max-width: 400px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: var(--space-sm);
+  background-color: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+}
+
+/* ==========================================================================
+   Code-rendered card (the unique visual differentiator)
+   ========================================================================== */
+
+.card-code {
+  font-family: var(--font-mono);
+  background-color: var(--color-code-bg);
+  border: 1px solid var(--color-code-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-code-text);
+  padding: var(--space-md);
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.card-text {
+  font-family: var(--font-base);
+  padding: var(--space-md);
+}
+
+/* ==========================================================================
+   Responsive breakpoints
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: var(--space-md);
+  }
+
+  .hero {
+    margin: var(--space-lg) auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header nav {
+    gap: var(--space-sm);
+  }
+
+  .btn-large {
+    width: 100%;
+  }
+}
