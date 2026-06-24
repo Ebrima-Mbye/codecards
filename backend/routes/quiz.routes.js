@@ -1,7 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../middlewares/auth.middleware");
+const {
+  getQuizCards,
+  submitScore,
+  getScores,
+} = require("../controllers/quiz.controller");
 
-// TODO: wire up controller functions for quiz routes here
-// const quizController = require('../controllers/quiz.controller');
+router.use(authMiddleware);
+
+// Must come before /:deckId to avoid shadowing
+router.get("/scores", getScores);
+router.get("/:deckId", getQuizCards);
+router.post("/:deckId/score", submitScore);
 
 module.exports = router;

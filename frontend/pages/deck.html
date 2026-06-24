@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deck — CodeCards</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="dashboard.html" class="logo">&lt;CodeCards/&gt;</a>
+      <nav>
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+        <button id="logout-btn" class="btn btn-outline">Log Out</button>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <div id="deck-header" class="deck-detail-header">
+        <div>
+          <span id="deck-lang-badge" class="deck-lang-badge"></span>
+          <h2 id="deck-title">Loading…</h2>
+          <p id="deck-desc" class="text-muted"></p>
+        </div>
+        <div class="deck-detail-actions">
+          <a id="quiz-btn" href="#" class="btn btn-success">▶ Start Quiz</a>
+          <button class="btn btn-primary" id="add-card-btn">+ Add Card</button>
+        </div>
+      </div>
+
+      <div id="page-error" class="alert alert-error hidden"></div>
+
+      <div id="cards-list" class="cards-list">
+        <p class="loading-text">Loading cards…</p>
+      </div>
+    </main>
+
+    <!-- Add / Edit Card Modal -->
+    <div
+      id="card-modal"
+      class="modal-overlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="card-modal-title"
+    >
+      <div class="modal modal-wide">
+        <div class="modal-header">
+          <h3 id="card-modal-title">Add Card</h3>
+          <button class="modal-close" id="card-modal-close" aria-label="Close">
+            &times;
+          </button>
+        </div>
+        <div id="card-modal-error" class="alert alert-error hidden"></div>
+        <form id="card-form" novalidate>
+          <input type="hidden" id="card-id" />
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="card-type">Card Type</label>
+              <select id="card-type">
+                <option value="text">Text</option>
+                <option value="code">Code</option>
+              </select>
+            </div>
+            <div class="form-group flex-1" id="lang-group">
+              <label for="card-language">Language hint</label>
+              <input
+                type="text"
+                id="card-language"
+                placeholder="e.g. javascript"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="card-front"
+              >Front <span class="optional">(question / prompt)</span></label
+            >
+            <textarea
+              id="card-front"
+              rows="4"
+              placeholder="What does Array.prototype.map() return?"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="card-back"
+              >Back <span class="optional">(answer / explanation)</span></label
+            >
+            <textarea
+              id="card-back"
+              rows="4"
+              placeholder="A new array with each element transformed by the callback."
+              required
+            ></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-ghost" id="card-modal-cancel">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" id="card-submit-btn">
+              Add Card
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/deck.js"></script>
+  </body>
+</html>
