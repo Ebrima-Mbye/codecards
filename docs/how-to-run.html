@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCards — How to Run the Project</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap");
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --ink: #1a1d2e;
+        --ink-mid: #4a4f6a;
+        --ink-light: #7a7f9a;
+        --bg: #ffffff;
+        --bg-alt: #f6f7fb;
+        --bg-code: #1e2235;
+        --border: #dde1f0;
+        --accent: #4f8cff;
+        --green: #22c55e;
+        --green-bg: #f0fdf4;
+        --green-bdr: #22c55e;
+        --yellow: #f59e0b;
+        --red: #ef4444;
+        --mono: "JetBrains Mono", "Consolas", monospace;
+        --sans:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      html {
+        font-size: 15px;
+      }
+      body {
+        font-family: var(--sans);
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── COVER ────────────────────────────────────────────────── */
+      .cover {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 60px;
+        background: linear-gradient(
+          135deg,
+          #0f1117 0%,
+          #1a1d29 55%,
+          #1a2540 100%
+        );
+        color: #e6e8ee;
+        page-break-after: always;
+      }
+
+      .cover-logo {
+        font-family: var(--mono);
+        font-size: 1.8rem;
+        color: #4f8cff;
+        margin-bottom: 52px;
+      }
+
+      .cover h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: #fff;
+        margin-bottom: 24px;
+      }
+
+      .cover-sub {
+        font-size: 1.15rem;
+        color: #9aa0b0;
+        max-width: 540px;
+        line-height: 1.7;
+        margin-bottom: 48px;
+      }
+
+      .cover-reassure {
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        border-radius: 10px;
+        padding: 18px 24px;
+        max-width: 540px;
+        color: #a6e3b8;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .cover-reassure strong {
+        color: #6ee7a0;
+      }
+
+      /* ── PAGE WRAP ────────────────────────────────────────────── */
+      .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 52px 60px;
+      }
+
+      /* ── HEADINGS ─────────────────────────────────────────────── */
+      h2 {
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: var(--ink);
+        margin: 0 0 14px;
+        padding-top: 52px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      h2 .step-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      h2 .step-pill.green {
+        background: var(--green);
+      }
+
+      h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 28px 0 8px;
+      }
+
+      p {
+        color: var(--ink-mid);
+        margin-bottom: 16px;
+        font-size: 1rem;
+      }
+
+      p strong {
+        color: var(--ink);
+      }
+
+      /* ── DIVIDER ──────────────────────────────────────────────── */
+      .section-rule {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 0 0 0;
+      }
+
+      /* ── INTRO BLURB ──────────────────────────────────────────── */
+      .intro-blurb {
+        background: var(--bg-alt);
+        border-left: 4px solid var(--accent);
+        border-radius: 0 8px 8px 0;
+        padding: 20px 24px;
+        margin: 28px 0 0;
+        color: var(--ink-mid);
+        font-size: 0.97rem;
+        line-height: 1.7;
+      }
+
+      .intro-blurb strong {
+        color: var(--ink);
+      }
+
+      /* ── CALLOUTS ─────────────────────────────────────────────── */
+      .callout {
+        border-radius: 8px;
+        padding: 16px 22px;
+        margin: 22px 0;
+        font-size: 0.93rem;
+        line-height: 1.65;
+      }
+
+      .callout-tip {
+        background: #f0fdf4;
+        border-left: 4px solid var(--green);
+        color: #14532d;
+      }
+      .callout-info {
+        background: #eff6ff;
+        border-left: 4px solid var(--accent);
+        color: #1e3a70;
+      }
+      .callout-warning {
+        background: #fffbeb;
+        border-left: 4px solid var(--yellow);
+        color: #78400a;
+      }
+      .callout-danger {
+        background: #fef2f2;
+        border-left: 4px solid var(--red);
+        color: #7f1d1d;
+      }
+
+      .callout strong {
+        color: inherit;
+        font-weight: 700;
+      }
+
+      /* ── CODE BLOCKS ──────────────────────────────────────────── */
+      pre {
+        background: var(--bg-code);
+        border-radius: 10px;
+        padding: 20px 26px;
+        margin: 18px 0;
+        overflow-x: auto;
+        border: 1px solid #2c3050;
+        position: relative;
+      }
+
+      pre .label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #5a6080;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        color: #cdd6f4;
+        line-height: 1.75;
+      }
+
+      p code,
+      li code,
+      td code {
+        background: #eef0f8;
+        color: #3655a0;
+        border-radius: 4px;
+        padding: 2px 7px;
+        font-size: 0.87em;
+        border: 1px solid #d8ddf0;
+        font-family: var(--mono);
+      }
+
+      /* token colours inside pre>code */
+      .kw {
+        color: #cba6f7;
+      }
+      .str {
+        color: #a6e3a1;
+      }
+      .cmt {
+        color: #585b70;
+        font-style: italic;
+      }
+      .obj {
+        color: #f9e2af;
+      }
+      .num {
+        color: #fab387;
+      }
+
+      /* ── EXPECTED OUTPUT BOX ──────────────────────────────────── */
+      .output-box {
+        background: #111318;
+        border: 1px solid #2c3050;
+        border-left: 4px solid var(--green);
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin: 16px 0;
+      }
+
+      .output-box .output-label {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #3d7a55;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .output-box code {
+        color: #a6e3a1;
+        font-size: 0.88rem;
+      }
+
+      /* ── STEP CARDS ───────────────────────────────────────────── */
+      .sub-step {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        margin: 20px 0;
+      }
+
+      .sub-step-num {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        background: var(--bg-alt);
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--ink-mid);
+        margin-top: 3px;
+      }
+
+      .sub-step-body {
+        flex: 1;
+      }
+      .sub-step-body p {
+        margin: 0;
+      }
+
+      /* ── TROUBLE TABLE ────────────────────────────────────────── */
+      .table-wrap {
+        overflow-x: auto;
+        margin: 20px 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.88rem;
+      }
+
+      thead tr {
+        background: var(--bg-alt);
+        border-bottom: 2px solid var(--border);
+      }
+
+      th {
+        text-align: left;
+        padding: 10px 14px;
+        font-weight: 700;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--ink-mid);
+      }
+
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--ink-mid);
+        vertical-align: top;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: var(--bg-alt);
+      }
+
+      /* ── KEYBOARD ─────────────────────────────────────────────── */
+      kbd {
+        display: inline-block;
+        background: #fff;
+        border: 1.5px solid #c0c8de;
+        border-bottom-width: 3px;
+        border-radius: 5px;
+        padding: 2px 8px;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        color: var(--ink);
+        line-height: 1.4;
+      }
+
+      /* ── CHECKLIST ────────────────────────────────────────────── */
+      .checklist {
+        list-style: none;
+        margin: 16px 0;
+        padding: 0;
+      }
+
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 8px 0;
+        border-bottom: 1px dotted var(--border);
+        color: var(--ink-mid);
+        font-size: 0.95rem;
+      }
+
+      .checklist li:last-child {
+        border-bottom: none;
+      }
+
+      .checklist li::before {
+        content: "☐";
+        font-size: 1.1rem;
+        color: var(--accent);
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* ── FOOTER ───────────────────────────────────────────────── */
+      .footer {
+        text-align: center;
+        color: var(--ink-light);
+        font-size: 0.8rem;
+        margin-top: 80px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      /* ── PRINT ────────────────────────────────────────────────── */
+      @media print {
+        @page {
+          margin: 18mm 16mm;
+          size: A4;
+        }
+        body {
+          font-size: 11pt;
+        }
+        .cover {
+          page-break-after: always;
+        }
+        h2 {
+          page-break-before: auto;
+          padding-top: 28px;
+        }
+        pre {
+          font-size: 9pt;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+        .wrap {
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+     COVER
+     ============================================================ -->
+    <div class="cover">
+      <div class="cover-logo">&lt;CodeCards/&gt;</div>
+      <h1>How to Run the<br />Project on Your Computer</h1>
+      <p class="cover-sub">
+        A friendly, plain-English guide to getting CodeCards up and running on
+        your own machine — no prior experience required.
+      </p>
+      <div class="cover-reassure">
+        <strong>You can do this.</strong> Every single step is written out in
+        full, with explanations for what each step actually does and why it
+        matters. If something looks unfamiliar, keep reading — it will be
+        explained.
+      </div>
+    </div>
+
+    <!-- ============================================================
+     INTRO
+     ============================================================ -->
+    <div class="wrap">
+      <div class="intro-blurb">
+        <strong>What this guide does:</strong> It takes you from a fresh
+        computer to a fully running version of CodeCards in about 10–15 minutes.
+        You will install one program (Node.js), copy one line of text into a
+        config file, type two commands in a terminal, and open a file in your
+        browser. That is genuinely all there is to it. The database is already
+        set up and running in the cloud — you just need to connect to it with a
+        short address that will be provided to you.
+      </div>
+
+      <!-- ============================================================
+     STEP 1 — INSTALL NODE.JS
+     ============================================================ -->
+      <h2><span class="step-pill">1</span> Install Node.js</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Node.js is a program that lets your computer run JavaScript code outside
+        of a browser. The CodeCards backend is written in JavaScript, so your
+        computer needs Node.js installed before it can understand and execute
+        that code. Think of it like installing a specific app that can "speak"
+        the language the backend is written in.
+      </p>
+
+      <p>
+        If you already have Node.js installed, you can skip ahead. To check,
+        open a terminal (explained in Step 3 below) and type
+        <code>node -v</code> then press Enter. If you see a version number like
+        <code>v20.14.0</code>, you are all set. If you see an error saying the
+        command was not found, proceed with the installation below.
+      </p>
+
+      <div class="sub-step">
+        <div class="sub-step-num">1</div>
+        <div class="sub-step-body">
+          <p>
+            Open your web browser and go to <strong>nodejs.org</strong>. You
+            will see two big download buttons. Click the one labelled
+            <strong>LTS</strong> — this stands for "Long-Term Support" and is
+            the stable, recommended version. A file will download to your
+            Downloads folder.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">2</div>
+        <div class="sub-step-body">
+          <p>
+            Open the downloaded file (it will be named something like
+            <code>node-v20.x.x-x64.msi</code> on Windows). An installer window
+            will appear. Click <strong>Next</strong> through each screen and
+            accept the default settings — you do not need to change anything.
+            Click <strong>Install</strong> when prompted, and then
+            <strong>Finish</strong> when it is done.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">3</div>
+        <div class="sub-step-body">
+          <p>
+            Verify the installation worked. Open a terminal (see Step 3 for
+            instructions on how to do that) and type the following, then press
+            Enter:
+          </p>
+          <pre><code>node -v</code></pre>
+          <p>
+            You should see a version number printed. Then type this and press
+            Enter:
+          </p>
+          <pre><code>npm -v</code></pre>
+          <p>
+            You should see another version number. Both of these working means
+            Node.js and its package manager (npm) are correctly installed.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>What is npm?</strong> npm stands for "Node Package Manager." It
+        is a tool that comes bundled with Node.js and lets you download and
+        manage the extra code libraries that a project depends on. You will use
+        it in Step 5.
+      </div>
+
+      <!-- ============================================================
+     STEP 2 — GET THE PROJECT FILES
+     ============================================================ -->
+      <h2><span class="step-pill">2</span> Get the Project Files</h2>
+      <hr class="section-rule" />
+
+      <p>
+        You need a copy of the CodeCards project files on your computer. These
+        will either be shared with you as a ZIP file or via a shared folder.
+        Either way, the important thing is knowing exactly where they end up on
+        your computer.
+      </p>
+
+      <p>
+        If you received a ZIP file, right-click it and choose
+        <strong>Extract All</strong>
+        (on Windows). Choose a sensible location — somewhere like your Desktop
+        or your Documents folder works fine. After extracting you should see a
+        folder called
+        <code>codecards</code>. Open it and you should see two sub-folders:
+        <code>backend</code> and <code>frontend</code>. That is the correct
+        structure.
+      </p>
+
+      <div class="callout callout-info">
+        <strong>Remember where you put it.</strong> You will need to navigate
+        into this folder using a terminal in the next step. If you are not sure
+        where you extracted the files, right-click the
+        <code>backend</code> folder and choose "Properties" (Windows) — it will
+        show you the full path.
+      </div>
+
+      <!-- ============================================================
+     STEP 3 — OPEN A TERMINAL
+     ============================================================ -->
+      <h2><span class="step-pill">3</span> Open a Terminal</h2>
+      <hr class="section-rule" />
+
+      <p>
+        A terminal (also called a "command prompt" or "command line") is a
+        text-based window where you type instructions directly to your computer.
+        It can sound intimidating if you have never used one, but for this
+        project you only need to type a handful of short commands, all of which
+        are spelled out for you exactly.
+      </p>
+
+      <h3>Opening a terminal on Windows</h3>
+
+      <p>
+        The easiest method: hold <kbd>Shift</kbd> and right-click inside the
+        <code>backend</code> folder in Windows Explorer (the file browser). A
+        menu will appear, and one of the options should say
+        <strong>"Open PowerShell window here"</strong> or
+        <strong>"Open in Terminal"</strong>. Click that. A terminal window will
+        open already pointed at the right folder — perfect.
+      </p>
+
+      <p>
+        Alternatively, press the <kbd>Windows</kbd> key, type
+        <strong>cmd</strong>, and press Enter to open Command Prompt. Or type
+        <strong>powershell</strong> for PowerShell. Both work. Once it is open
+        you will need to navigate to the backend folder manually (see below).
+      </p>
+
+      <h3>Navigating to the backend folder</h3>
+
+      <p>
+        If your terminal did not open directly in the backend folder, you need
+        to tell it where to go. The command for this is <code>cd</code> which
+        stands for "change directory" — another word for folder. Type it like
+        this, replacing the path with wherever you actually put the project:
+      </p>
+      <pre><code>cd C:\Users\YourName\Desktop\codecards\backend</code></pre>
+      <p>
+        Press Enter. The prompt should now show the path ending with
+        <code>\backend</code>. You are in the right place.
+      </p>
+
+      <div class="callout callout-tip">
+        <strong>Quick tip:</strong> You do not have to type the full path by
+        hand. In Windows Explorer, click the address bar at the top of the
+        window (the part showing the folder path), select all the text, and copy
+        it. Then in your terminal type <code>cd </code>
+        (with a space) and paste the copied path.
+      </div>
+
+      <!-- ============================================================
+     STEP 4 — SET UP THE CONFIGURATION FILE
+     ============================================================ -->
+      <h2><span class="step-pill">4</span> Set Up the Configuration File</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Inside the <code>backend</code> folder there is a file called
+        <code>.env</code>. This is a simple text file that holds private
+        configuration values for the project — things like the address of the
+        database and a secret key used to secure user logins. The reason these
+        live in a separate file rather than inside the code itself is so that
+        they are never accidentally shared or uploaded to GitHub.
+      </p>
+
+      <p>
+        You may not see the <code>.env</code> file in Windows Explorer by
+        default because files whose names start with a dot are sometimes hidden.
+        If that is the case, open the folder in VS Code instead — it will show
+        the file in the file tree on the left. You can also open VS Code's file
+        explorer and see it there.
+      </p>
+
+      <p>
+        Open the <code>.env</code> file in any text editor (VS Code, Notepad,
+        Notepad++ — anything works). It will look something like this:
+      </p>
+      <pre><code><span class="cmt"># Server</span>
+<span class="obj">PORT</span>=5000
+<span class="obj">NODE_ENV</span>=development
+
+<span class="cmt"># Database</span>
+<span class="obj">MONGODB_URI</span>=<span class="str">"put the uri here"</span>
+
+<span class="cmt"># Authentication</span>
+<span class="obj">JWT_SECRET</span>=OIJoijfowiejojOEF93FoijfoIJWEOFJ230fj09FJ2093FJODIFJOIJEFojoiw009JFoiji
+<span class="obj">JWT_EXPIRES_IN</span>=7d</code></pre>
+
+      <p>
+        The only line you need to update is the <code>MONGODB_URI</code> line.
+        You will be given a database address (URI) by the project lead — it is a
+        long string of text that starts with <code>mongodb+srv://</code>.
+        Replace the placeholder text with that string, keeping the quotation
+        marks around it. The finished line should look something like this (your
+        actual URI will be different):
+      </p>
+      <pre><code><span class="obj">MONGODB_URI</span>=<span class="str">"mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/codecards"</span></code></pre>
+
+      <div class="callout callout-warning">
+        <strong>Important:</strong> Do not add any spaces before or after the
+        equals sign. Do not change the quotes. Copy the URI exactly as given —
+        if even one character is wrong, the server will not be able to connect
+        to the database. Triple-check it.
+      </div>
+
+      <div class="callout callout-info">
+        <strong
+          >Everything else in the .env file is already set correctly.</strong
+        >
+        The <code>PORT</code>, <code>JWT_SECRET</code>, and
+        <code>JWT_EXPIRES_IN</code> values are already filled in and do not need
+        to be touched. Only the <code>MONGODB_URI</code>
+        needs to be updated with the address you receive.
+      </div>
+
+      <!-- ============================================================
+     STEP 5 — INSTALL PACKAGES
+     ============================================================ -->
+      <h2><span class="step-pill">5</span> Install the Project's Packages</h2>
+      <hr class="section-rule" />
+
+      <p>
+        The backend relies on a number of code libraries written by other
+        developers — things like the database connector, the security tools, and
+        the web server framework. These libraries are not stored inside the
+        project folder itself (to keep the project size small), but there is a
+        list of everything that is needed in a file called
+        <code>package.json</code>. The <code>npm install</code> command reads
+        that list and downloads everything automatically.
+      </p>
+
+      <p>
+        In your terminal (which should still be open in the
+        <code>backend</code> folder from Step 3), type the following and press
+        Enter:
+      </p>
+      <pre><code>npm install</code></pre>
+
+      <p>
+        You will see a lot of text scroll by as npm downloads the packages. This
+        is normal. It typically takes 30–60 seconds depending on your internet
+        speed. When it is done, the terminal will return to a blank prompt (just
+        a blinking cursor waiting for input), and a new folder called
+        <code>node_modules</code> will have appeared inside the
+        <code>backend</code> folder. That folder contains all the downloaded
+        libraries.
+      </p>
+
+      <div class="callout callout-tip">
+        <strong>You only need to do this once.</strong> Unless someone adds a
+        new package to the project (in which case the
+        <code>package.json</code> will change), you do not need to run
+        <code>npm install</code> again on subsequent runs. Just go straight to
+        starting the server.
+      </div>
+
+      <!-- ============================================================
+     STEP 6 — START THE SERVER
+     ============================================================ -->
+      <h2><span class="step-pill">6</span> Start the Backend Server</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Now you are ready to start the backend. In your terminal, type the
+        following and press Enter:
+      </p>
+      <pre><code>npm start</code></pre>
+
+      <p>
+        The server will start up and attempt to connect to the database. If
+        everything is configured correctly, you will see output that looks like
+        this:
+      </p>
+
+      <div class="output-box">
+        <div class="output-label">Expected terminal output — success</div>
+        <code
+          >MongoDB connected: cluster0.xxxxx.mongodb.net<br />Server running on
+          port 5000</code
+        >
+      </div>
+
+      <p>
+        Those two lines mean everything is working. The first tells you the
+        database connection was successful. The second tells you the server is
+        running and listening on port 5000, which is the "door number" your
+        browser will use to talk to it.
+      </p>
+
+      <p>
+        <strong>The terminal window must stay open</strong> while you are using
+        the app. The server runs as long as that terminal window is open. Do not
+        close it. If you accidentally close it, the website will stop working
+        and you just need to run <code>npm start</code> again.
+      </p>
+
+      <div class="callout callout-warning">
+        <strong>If you see an error instead of the success message,</strong> the
+        most likely cause is the <code>MONGODB_URI</code> in your
+        <code>.env</code> file. Go back to Step 4 and double-check that the URI
+        is copied exactly, with no extra spaces or missing characters. The
+        troubleshooting table at the end of this guide covers the most common
+        problems.
+      </div>
+
+      <!-- ============================================================
+     STEP 7 — OPEN THE FRONTEND
+     ============================================================ -->
+      <h2><span class="step-pill">7</span> Open the Website in Your Browser</h2>
+      <hr class="section-rule" />
+
+      <p>
+        The frontend of CodeCards is made of plain HTML files. Unlike the
+        backend, it does not need to be "started" — you just open it directly in
+        your browser, the same way you would open any file on your computer.
+      </p>
+
+      <p>
+        Open your file browser (Windows Explorer), navigate to the
+        <code>codecards</code> folder, then go into the
+        <code>frontend</code> sub-folder. You will see a file called
+        <code>index.html</code>. Double-click it. It will open in your default
+        web browser and you will see the CodeCards landing page.
+      </p>
+
+      <div class="callout callout-tip">
+        <strong>Using VS Code?</strong> If you have the
+        <strong>Live Server</strong> extension installed in VS Code (it is free
+        and very popular), right-click <code>index.html</code> in VS Code's file
+        explorer and choose <strong>"Open with Live Server"</strong>. This is
+        slightly better because Live Server automatically refreshes the page
+        when you make changes to the HTML or CSS — handy if you are developing.
+      </div>
+
+      <!-- ============================================================
+     STEP 8 — TRY IT OUT
+     ============================================================ -->
+      <h2><span class="step-pill green">8</span> Try the App End to End</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Everything should now be running. Here is a quick walkthrough of the
+        full user journey to confirm that everything is working correctly from
+        the database all the way to the screen.
+      </p>
+
+      <div class="sub-step">
+        <div class="sub-step-num">1</div>
+        <div class="sub-step-body">
+          <p>
+            On the landing page, click <strong>Sign Up</strong>. Fill in a
+            username, email address, and a password (at least 8 characters).
+            Click <strong>Create Account</strong>. If the server and database
+            are working, you will be taken to your dashboard immediately. If you
+            see an error, check the terminal window for clues.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">2</div>
+        <div class="sub-step-body">
+          <p>
+            On the dashboard, click <strong>+ New Deck</strong>. Give your deck
+            a title (e.g. "JavaScript Basics"), choose a language from the
+            dropdown, and optionally add a description. Click
+            <strong>Create Deck</strong>. The new deck card should appear in the
+            grid immediately.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">3</div>
+        <div class="sub-step-body">
+          <p>
+            Click <strong>Open</strong> on your new deck. You will see the deck
+            detail page. Click <strong>+ Add Card</strong>, type a question in
+            the Front field and an answer in the Back field. Try adding at least
+            two or three cards so the quiz is meaningful. Click
+            <strong>Add Card</strong> each time.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">4</div>
+        <div class="sub-step-body">
+          <p>
+            Click <strong>▶ Start Quiz</strong>. The quiz page will load with
+            your cards shuffled. Click a card (or press <kbd>Space</kbd>) to
+            flip it and reveal the answer. Then click <strong>Got it</strong> or
+            <strong>Missed it</strong> to move to the next card. After the last
+            card you will see a results screen with your score.
+          </p>
+        </div>
+      </div>
+
+      <div class="sub-step">
+        <div class="sub-step-num">5</div>
+        <div class="sub-step-body">
+          <p>
+            Go back to the dashboard (click
+            <strong>&lt;CodeCards/&gt;</strong> in the top left). Scroll down
+            and you should see your just-completed quiz score in the "Recent
+            Quiz Scores" table. That confirms the score was saved to the
+            database successfully.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        If all five of those steps worked, the project is running perfectly.
+        Well done.
+      </p>
+
+      <!-- ============================================================
+     STOPPING
+     ============================================================ -->
+      <h2><span class="step-pill">9</span> How to Stop the Server</h2>
+      <hr class="section-rule" />
+
+      <p>
+        When you are done working and want to turn the server off, click inside
+        the terminal window and press <kbd>Ctrl</kbd> + <kbd>C</kbd> at the same
+        time. The server will stop and the terminal will return to a normal
+        prompt. You can then close the terminal window safely.
+      </p>
+
+      <p>
+        Next time you want to run the project again, you only need to open a
+        terminal in the <code>backend</code> folder and run
+        <code>npm start</code> — no need to repeat Steps 1 through 5. Those are
+        one-time setup steps.
+      </p>
+
+      <!-- ============================================================
+     TROUBLESHOOTING
+     ============================================================ -->
+      <h2><span class="step-pill">!</span> If Something Goes Wrong</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Below is a table of the most common problems people encounter, what the
+        error message looks like, and exactly what to do about it.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>What you see</th>
+              <th>What it means &amp; what to do</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <code
+                  >MongoDB connection error: Protocol and host list are
+                  required</code
+                >
+              </td>
+              <td>
+                The <code>MONGODB_URI</code> in your <code>.env</code> file is
+                wrong or missing. Open <code>.env</code>, check that the URI is
+                pasted in full with no extra <code>@</code> signs, spaces, or
+                missing quotes around it.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <code>querySrv ECONNREFUSED</code> or <code>ENOTFOUND</code>
+              </td>
+              <td>
+                Your computer cannot reach the database server. This is almost
+                always a network/internet issue — check that you are connected
+                to the internet. If you are on a strict corporate or school
+                Wi-Fi, it may be blocking the connection. Try a different
+                network (mobile hotspot, home Wi-Fi) to confirm.
+              </td>
+            </tr>
+            <tr>
+              <td><code>MongoServerError: bad auth</code></td>
+              <td>
+                The username or password embedded inside the URI is wrong. Ask
+                the project lead to re-send you the correct URI and paste it
+                fresh.
+              </td>
+            </tr>
+            <tr>
+              <td><code>Error: Cannot find module '...'</code></td>
+              <td>
+                The packages have not been installed yet, or something went
+                wrong during installation. Make sure you are inside the
+                <code>backend</code> folder in your terminal, then run
+                <code>npm install</code> again.
+              </td>
+            </tr>
+            <tr>
+              <td><code>'node' is not recognized as a command</code></td>
+              <td>
+                Node.js is either not installed or the installer did not add it
+                to your system's PATH. Re-run the Node.js installer from
+                nodejs.org. After it finishes, close and reopen your terminal
+                and try again.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                The browser shows a blank page or an error when opening
+                <code>index.html</code>
+              </td>
+              <td>
+                This usually means the backend server is not running. Switch to
+                your terminal and check that you can see the "Server running on
+                port 5000" message. If not, run <code>npm start</code> again.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Login or register shows "Network Error" or "Failed to fetch"
+              </td>
+              <td>
+                The frontend is trying to contact the backend but cannot reach
+                it. Make sure the terminal with <code>npm start</code> is still
+                open and shows no errors. If you are using a browser like
+                Firefox or Chrome, also check that it is not blocking the
+                request for security reasons (look in the browser console for
+                clues).
+              </td>
+            </tr>
+            <tr>
+              <td>Port 5000 is already in use</td>
+              <td>
+                Another program on your computer is using port 5000. The
+                simplest fix is to change the port number: open
+                <code>.env</code>, change <code>PORT=5000</code> to
+                <code>PORT=5001</code>, save the file, and run
+                <code>npm start</code> again. Then also update the
+                <code>API_BASE</code> line in <code>frontend/js/api.js</code> to
+                use <code>:5001</code> instead.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ============================================================
+     QUICK-REFERENCE CHECKLIST
+     ============================================================ -->
+      <h2><span class="step-pill green">✓</span> Quick-Reference Checklist</h2>
+      <hr class="section-rule" />
+
+      <p>
+        Once you have completed the initial setup, use this checklist every time
+        you want to run the project to make sure everything is in order before
+        you begin.
+      </p>
+
+      <ul class="checklist">
+        <li>Node.js is installed — confirmed with <code>node -v</code></li>
+        <li>
+          The <code>MONGODB_URI</code> in <code>backend/.env</code> is filled in
+          with the provided address
+        </li>
+        <li>
+          <code>npm install</code> has been run at least once in the
+          <code>backend</code> folder
+        </li>
+        <li>Terminal is open inside the <code>backend</code> folder</li>
+        <li>
+          Server is started with <code>npm start</code> and shows "Server
+          running on port 5000"
+        </li>
+        <li><code>frontend/index.html</code> is open in the browser</li>
+      </ul>
+
+      <div class="callout callout-tip" style="margin-top: 40px">
+        <strong>How to save this as a PDF:</strong> Open this file in Google
+        Chrome or Microsoft Edge, press <kbd>Ctrl</kbd> + <kbd>P</kbd>, set
+        <em>Destination</em> to <strong>Save as PDF</strong>, set
+        <em>Margins</em> to <strong>Minimum</strong>, then click
+        <strong>Save</strong>.
+      </div>
+
+      <div class="footer">
+        CodeCards — How to Run Guide &nbsp;·&nbsp; June 2026
+      </div>
+    </div>
+  </body>
+</html>

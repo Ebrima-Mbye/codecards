@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CodeCards — Complete Project Guide</title>
+<style>
+/* ============================================================
+   FONTS & RESET
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:         #1a1d2e;
+  --ink-mid:     #4a4f6a;
+  --ink-light:   #7a7f9a;
+  --bg:          #ffffff;
+  --bg-alt:      #f6f7fb;
+  --bg-code:     #1e2235;
+  --border:      #dde1f0;
+  --accent:      #4f8cff;
+  --accent-dark: #2d5fd6;
+  --green:       #22c55e;
+  --red:         #ef4444;
+  --yellow:      #f59e0b;
+  --purple:      #8b5cf6;
+  --mono: 'JetBrains Mono', 'Consolas', monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+html { font-size: 15px; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 56px;
+}
+
+/* ============================================================
+   COVER PAGE
+   ============================================================ */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 56px;
+  background: linear-gradient(135deg, #0f1117 0%, #1a1d29 60%, #1f2540 100%);
+  color: #e6e8ee;
+  page-break-after: always;
+}
+
+.cover-logo {
+  font-family: var(--mono);
+  font-size: 2rem;
+  color: #4f8cff;
+  margin-bottom: 56px;
+}
+
+.cover h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: #ffffff;
+}
+
+.cover-sub {
+  font-size: 1.2rem;
+  color: #9aa0b0;
+  max-width: 560px;
+  margin-bottom: 60px;
+  line-height: 1.6;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.cover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cover-meta-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6a7090;
+  font-weight: 600;
+}
+
+.cover-meta-value {
+  font-size: 0.95rem;
+  color: #c8ccdc;
+  font-weight: 500;
+}
+
+.cover-badge-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+}
+
+.tech-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--mono);
+  border: 1px solid;
+}
+
+.badge-node    { background: rgba(104,211,145,0.12); border-color: #68d391; color: #68d391; }
+.badge-mongo   { background: rgba(77,175,74,0.12);   border-color: #4daf4a; color: #4daf4a; }
+.badge-express { background: rgba(255,255,255,0.08); border-color: #888;    color: #ccc; }
+.badge-jwt     { background: rgba(245,158,11,0.12);  border-color: #f59e0b; color: #f59e0b; }
+.badge-html    { background: rgba(239,68,68,0.12);   border-color: #ef4444; color: #ef4444; }
+.badge-css     { background: rgba(79,140,255,0.12);  border-color: #4f8cff; color: #4f8cff; }
+.badge-js      { background: rgba(253,224,71,0.12);  border-color: #fde047; color: #fde047; }
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc-page {
+  page-break-after: always;
+  padding: 64px 56px;
+}
+
+.toc-page h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  color: var(--ink);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 12px;
+  display: inline-block;
+}
+
+.toc-list {
+  list-style: none;
+  counter-reset: toc;
+}
+
+.toc-list > li {
+  counter-increment: toc;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--border);
+  font-size: 1rem;
+}
+
+.toc-list > li::before {
+  content: "0" counter(toc);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 28px;
+}
+
+.toc-list > li a {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  flex: 1;
+}
+
+.toc-sub {
+  list-style: none;
+  padding-left: 40px;
+  margin-top: 4px;
+}
+
+.toc-sub li {
+  font-size: 0.88rem;
+  color: var(--ink-mid);
+  padding: 3px 0;
+}
+
+.toc-sub li::before {
+  content: "—  ";
+  color: var(--border);
+}
+
+/* ============================================================
+   SECTION HEADINGS
+   ============================================================ */
+.section {
+  page-break-before: always;
+  padding-top: 0;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-num {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(79,140,255,0.1);
+  border: 1px solid rgba(79,140,255,0.3);
+  border-radius: 6px;
+  padding: 2px 10px;
+}
+
+.section-intro {
+  color: var(--ink-mid);
+  font-size: 1rem;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  max-width: 700px;
+}
+
+h2 { font-size: 1.4rem; font-weight: 700; margin: 40px 0 14px; color: var(--ink); }
+h3 { font-size: 1.1rem; font-weight: 700; margin: 32px 0 10px; color: var(--ink); }
+h4 { font-size: 0.95rem; font-weight: 700; margin: 24px 0 8px; color: var(--ink-mid); text-transform: uppercase; letter-spacing: 0.06em; }
+
+p  { margin-bottom: 14px; color: var(--ink-mid); }
+ul, ol { margin: 0 0 16px 20px; color: var(--ink-mid); }
+li { margin-bottom: 6px; }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+pre {
+  background: var(--bg-code);
+  border-radius: 10px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid #2c3050;
+  position: relative;
+}
+
+pre .lang-label {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5a6080;
+  font-weight: 600;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: #cdd6f4;
+  line-height: 1.7;
+}
+
+/* Inline code */
+p code, li code, td code {
+  background: #eef0f8;
+  color: #3655a0;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.85em;
+  border: 1px solid #d8ddf0;
+}
+
+/* Syntax token colours */
+.kw  { color: #cba6f7; }  /* keywords */
+.fn  { color: #89b4fa; }  /* functions */
+.str { color: #a6e3a1; }  /* strings */
+.num { color: #fab387; }  /* numbers */
+.cmt { color: #585b70; font-style: italic; } /* comments */
+.cls { color: #f38ba8; }  /* class / type names */
+.var { color: #cdd6f4; }  /* variables */
+.op  { color: #89dceb; }  /* operators / punctuation */
+.prop{ color: #89dceb; }  /* object properties */
+.obj { color: #f9e2af; }  /* object keys / const names */
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+.table-wrap { overflow-x: auto; margin: 20px 0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+thead tr {
+  background: var(--bg-alt);
+  border-bottom: 2px solid var(--border);
+}
+
+th {
+  text-align: left;
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mid);
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-mid);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg-alt); }
+
+td code { white-space: nowrap; }
+
+/* HTTP method badges */
+.method {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.m-get    { background:#dbeafe; color:#1d4ed8; }
+.m-post   { background:#dcfce7; color:#15803d; }
+.m-put    { background:#fef9c3; color:#854d0e; }
+.m-delete { background:#fee2e2; color:#991b1b; }
+
+/* ============================================================
+   CALLOUT BOXES
+   ============================================================ */
+.callout {
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-left: 4px solid;
+  font-size: 0.92rem;
+}
+
+.callout-info    { background:#eff6ff; border-color:#3b82f6; color:#1e40af; }
+.callout-warning { background:#fffbeb; border-color:#f59e0b; color:#92400e; }
+.callout-tip     { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+.callout-danger  { background:#fef2f2; border-color:#ef4444; color:#991b1b; }
+
+.callout strong { color: inherit; }
+
+/* ============================================================
+   ARCHITECTURE DIAGRAM
+   ============================================================ */
+.arch-diagram {
+  background: var(--bg-code);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin: 20px 0;
+  font-family: var(--mono);
+  font-size: 0.83rem;
+  color: #cdd6f4;
+  line-height: 2;
+  border: 1px solid #2c3050;
+}
+
+.arch-diagram .box-blue   { color: #89b4fa; }
+.arch-diagram .box-green  { color: #a6e3a1; }
+.arch-diagram .box-yellow { color: #f9e2af; }
+.arch-diagram .box-red    { color: #f38ba8; }
+.arch-diagram .arrow      { color: #585b70; }
+
+/* ============================================================
+   FILE TREE
+   ============================================================ */
+.file-tree {
+  background: var(--bg-code);
+  border-radius: 10px;
+  padding: 24px 28px;
+  font-family: var(--mono);
+  font-size: 0.83rem;
+  line-height: 1.9;
+  color: #cdd6f4;
+  margin: 20px 0;
+  border: 1px solid #2c3050;
+}
+
+.file-tree .dir  { color: #89b4fa; font-weight: 600; }
+.file-tree .file { color: #cdd6f4; }
+.file-tree .ann  { color: #585b70; font-style: italic; }
+
+/* ============================================================
+   FLOW STEPS
+   ============================================================ */
+.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  position: relative;
+}
+
+.flow-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.flow-step:last-child { padding-bottom: 0; }
+
+.flow-step::before {
+  content: '';
+  position: absolute;
+  left: 17px;
+  top: 36px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.flow-step:last-child::before { display: none; }
+
+.flow-num {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  z-index: 1;
+}
+
+.flow-content {
+  flex: 1;
+  padding-top: 6px;
+}
+
+.flow-content strong { display: block; color: var(--ink); font-size: 0.95rem; margin-bottom: 4px; }
+.flow-content p { font-size: 0.88rem; color: var(--ink-mid); margin: 0; }
+
+/* ============================================================
+   FEATURE CARDS
+   ============================================================ */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.feature-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  background: var(--bg-alt);
+}
+
+.feature-card .icon {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.feature-card h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.feature-card p {
+  font-size: 0.82rem;
+  color: var(--ink-mid);
+  margin: 0;
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  @page { margin: 18mm 16mm; size: A4; }
+
+  body { font-size: 11pt; }
+
+  .cover { page-break-after: always; }
+  .section { page-break-before: always; }
+
+  pre { font-size: 9pt; white-space: pre-wrap; word-break: break-word; border: 1px solid #ccc; }
+  pre .lang-label { position: static; display: inline-block; margin-bottom: 4px; }
+  code { font-size: 9pt; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page-wrap { padding: 0; }
+  .toc-page  { padding: 0; }
+
+  .feature-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     COVER PAGE
+     ================================================================ -->
+<div class="cover">
+  <div class="cover-logo">&lt;CodeCards/&gt;</div>
+  <h1>Complete<br>Project Guide</h1>
+  <p class="cover-sub">
+    A full-stack code-syntax flashcard and quiz web application built with
+    Node.js, Express, MongoDB Atlas, and vanilla HTML/CSS/JavaScript.
+  </p>
+  <div class="cover-badge-row">
+    <span class="tech-badge badge-node">Node.js 18+</span>
+    <span class="tech-badge badge-express">Express 4</span>
+    <span class="tech-badge badge-mongo">MongoDB Atlas</span>
+    <span class="tech-badge badge-jwt">JWT Auth</span>
+    <span class="tech-badge badge-html">HTML5</span>
+    <span class="tech-badge badge-css">CSS3</span>
+    <span class="tech-badge badge-js">Vanilla JS</span>
+  </div>
+  <div class="cover-meta" style="margin-top:60px;">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Version</span>
+      <span class="cover-meta-value">1.0.0</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Last updated</span>
+      <span class="cover-meta-value">June 2026</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Status</span>
+      <span class="cover-meta-value">Active Development</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     TABLE OF CONTENTS
+     ================================================================ -->
+<div class="toc-page page-wrap">
+  <h2>Table of Contents</h2>
+  <ol class="toc-list">
+    <li><a href="#s1">Project Overview</a></li>
+    <li><a href="#s2">Technology Stack</a></li>
+    <li><a href="#s3">Project Structure</a></li>
+    <li><a href="#s4">Architecture &amp; Data Flow</a></li>
+    <li><a href="#s5">Database Models</a></li>
+    <li><a href="#s6">Backend API Reference</a></li>
+    <li><a href="#s7">Authentication System</a></li>
+    <li><a href="#s8">Frontend Pages</a></li>
+    <li><a href="#s9">Key Code Walkthroughs</a></li>
+    <li><a href="#s10">Quiz Engine</a></li>
+    <li><a href="#s11">Security Considerations</a></li>
+    <li><a href="#s12">Extending the Project</a></li>
+  </ol>
+</div>
+
+<!-- ================================================================
+     SECTION 1 — PROJECT OVERVIEW
+     ================================================================ -->
+<div class="page-wrap section" id="s1">
+  <div class="section-title"><span class="section-num">01</span> Project Overview</div>
+  <p class="section-intro">
+    What CodeCards is, why it was built, and what a user can do with it.
+  </p>
+
+  <h2>What is CodeCards?</h2>
+  <p>
+    <strong>CodeCards</strong> is a full-stack web application that lets learners create digital
+    flashcard decks focused on programming syntax, concepts, and code snippets.
+    Users can build personalised decks, add cards with a "question" front and
+    "answer" back, then quiz themselves and track their progress over time.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🃏</div>
+      <h4>Flashcard Decks</h4>
+      <p>Organise cards into language-tagged decks (JavaScript, Python, SQL…). Add a title and description.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">💻</div>
+      <h4>Code Cards</h4>
+      <p>Cards can hold plain text or monospaced code snippets, with a language hint for context.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🧠</div>
+      <h4>Quiz Mode</h4>
+      <p>Cards are shuffled, presented face-down. Flip to reveal the answer, then mark Got it / Missed it.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📊</div>
+      <h4>Score History</h4>
+      <p>Every completed quiz saves a score. The dashboard shows the last 20 results with % ratings.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔐</div>
+      <h4>User Accounts</h4>
+      <p>Register and log in with email + password. All decks and scores belong privately to each user.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📱</div>
+      <h4>Responsive Design</h4>
+      <p>Works on desktop, tablet and mobile. Clean dark-themed UI purpose-built for code content.</p>
+    </div>
+  </div>
+
+  <h2>Who is it for?</h2>
+  <p>
+    Students studying programming, self-taught developers learning new languages,
+    bootcamp attendees who want a better way to memorise syntax, and anyone who
+    wants to replace paper/Anki-style flashcards with a purpose-built coding tool.
+  </p>
+</div>
+
+<!-- ================================================================
+     SECTION 2 — TECHNOLOGY STACK
+     ================================================================ -->
+<div class="page-wrap section" id="s2">
+  <div class="section-title"><span class="section-num">02</span> Technology Stack</div>
+  <p class="section-intro">Every library and tool used and the reason it was chosen.</p>
+
+  <h2>Backend</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Package</th><th>Version</th><th>Role</th><th>Why chosen</th></tr></thead>
+      <tbody>
+        <tr><td><code>express</code></td><td>^4.19</td><td>HTTP framework</td><td>Minimal, well-documented, huge ecosystem</td></tr>
+        <tr><td><code>mongoose</code></td><td>^8.5</td><td>MongoDB ODM</td><td>Schema validation + easy model relationships</td></tr>
+        <tr><td><code>bcrypt</code></td><td>^5.1</td><td>Password hashing</td><td>Industry-standard adaptive hashing (cost factor)</td></tr>
+        <tr><td><code>jsonwebtoken</code></td><td>^9.0</td><td>JWT auth</td><td>Stateless, scalable token-based sessions</td></tr>
+        <tr><td><code>dotenv</code></td><td>^16.4</td><td>Env config</td><td>Keeps secrets out of source code</td></tr>
+        <tr><td><code>helmet</code></td><td>^7.1</td><td>Security headers</td><td>Sets X-Content-Type, HSTS, etc. with one call</td></tr>
+        <tr><td><code>cors</code></td><td>^2.8</td><td>CORS middleware</td><td>Controls which origins may call the API</td></tr>
+        <tr><td><code>express-rate-limit</code></td><td>^7.4</td><td>Rate limiting</td><td>Available for use; protects auth endpoints</td></tr>
+        <tr><td><code>nodemon</code></td><td>^3.1</td><td>Dev server</td><td>Auto-restart on file save (dev only)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Frontend</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>HTML5</td><td>Markup for all pages — no framework by design (supervisor requirement)</td></tr>
+        <tr><td>CSS3 (custom properties)</td><td>Full design system: dark theme, layout, animations, responsive breakpoints</td></tr>
+        <tr><td>Vanilla JavaScript (ES2020)</td><td>All interactivity — modals, fetch calls, quiz engine, DOM rendering</td></tr>
+        <tr><td>Normalize.css (CDN)</td><td>Cross-browser baseline reset</td></tr>
+        <tr><td>Fetch API</td><td>Browser-native HTTP — no axios needed</td></tr>
+        <tr><td>localStorage</td><td>Stores JWT token and logged-in user object</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Infrastructure</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Service</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>MongoDB Atlas (M0 free)</td><td>Hosted database — handles replication, backups, monitoring</td></tr>
+        <tr><td>Render (free tier)</td><td>Backend deployment — auto-deploys on git push</td></tr>
+        <tr><td>Netlify (free tier)</td><td>Frontend static hosting — global CDN, HTTPS by default</td></tr>
+        <tr><td>GitHub</td><td>Source control &amp; CI trigger for deployments</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <strong>Why no React/Vue?</strong> The supervisor specified plain HTML, CSS and JavaScript. This is a
+    valid architectural choice for a project of this scope — it removes build tooling, avoids framework churn,
+    and keeps the code readable without prior framework knowledge.
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 3 — PROJECT STRUCTURE
+     ================================================================ -->
+<div class="page-wrap section" id="s3">
+  <div class="section-title"><span class="section-num">03</span> Project Structure</div>
+  <p class="section-intro">A full annotated map of every file in the repository.</p>
+
+  <div class="file-tree">
+<span class="dir">codecards/</span>
+<span class="ann">                   ← project root</span>
+│
+├── <span class="dir">backend/</span>
+<span class="ann">               ← Node.js API server</span>
+│   ├── <span class="file">server.js</span>
+<span class="ann">          ← entry point — loads dotenv, connects DB, starts HTTP server</span>
+│   ├── <span class="file">index.js</span>
+<span class="ann">           ← Express app factory — mounts middleware and all routes</span>
+│   ├── <span class="file">db.js</span>
+<span class="ann">              ← Mongoose connection helper</span>
+│   ├── <span class="file">package.json</span>
+<span class="ann">       ← npm manifest and dependency list</span>
+│   ├── <span class="file">.env</span>
+<span class="ann">               ← secret config (NOT committed to git)</span>
+│   │
+│   ├── <span class="dir">models/</span>
+<span class="ann">            ← Mongoose schemas (shape of each DB collection)</span>
+│   │   ├── <span class="file">user.model.js</span>
+<span class="ann">    ← username, email, passwordHash</span>
+│   │   ├── <span class="file">deck.model.js</span>
+<span class="ann">    ← owner, title, description, language</span>
+│   │   ├── <span class="file">card.model.js</span>
+<span class="ann">    ← deck ref, front, back, cardType, language</span>
+│   │   └── <span class="file">score.model.js</span>
+<span class="ann">   ← user ref, deck ref, correct, total, takenAt</span>
+│   │
+│   ├── <span class="dir">controllers/</span>
+<span class="ann">       ← request handlers (business logic lives here)</span>
+│   │   ├── <span class="file">auth.controller.js</span>
+<span class="ann"> ← register(), login()</span>
+│   │   ├── <span class="file">deck.controller.js</span>
+<span class="ann"> ← createDeck(), getDecks(), getDeck(), updateDeck(), deleteDeck()</span>
+│   │   ├── <span class="file">card.controller.js</span>
+<span class="ann"> ← createCard(), getCards(), updateCard(), deleteCard()</span>
+│   │   └── <span class="file">quiz.controller.js</span>
+<span class="ann"> ← getQuizCards(), submitScore(), getScores()</span>
+│   │
+│   ├── <span class="dir">routes/</span>
+<span class="ann">            ← Express Router definitions (path → controller)</span>
+│   │   ├── <span class="file">auth.routes.js</span>
+│   │   ├── <span class="file">deck.routes.js</span>
+│   │   ├── <span class="file">card.routes.js</span>
+│   │   └── <span class="file">quiz.routes.js</span>
+│   │
+│   ├── <span class="dir">middlewares/</span>
+│   │   ├── <span class="file">auth.middleware.js</span>
+<span class="ann"> ← JWT verification; protects private routes</span>
+│   │   └── <span class="file">errorHandler.js</span>
+<span class="ann">   ← global error formatter</span>
+│   │
+│   └── <span class="dir">utils/</span>
+│       └── <span class="file">logger.js</span>
+<span class="ann">       ← logInfo() / logError() helpers</span>
+│
+├── <span class="dir">frontend/</span>
+<span class="ann">              ← static HTML/CSS/JS — no build step needed</span>
+│   ├── <span class="file">index.html</span>
+<span class="ann">         ← landing page (public)</span>
+│   │
+│   ├── <span class="dir">pages/</span>
+<span class="ann">             ← all authenticated pages</span>
+│   │   ├── <span class="file">login.html</span>
+│   │   ├── <span class="file">register.html</span>
+│   │   ├── <span class="file">dashboard.html</span>
+<span class="ann">  ← deck grid + recent scores</span>
+│   │   ├── <span class="file">deck.html</span>
+<span class="ann">       ← card list + add/edit/delete cards</span>
+│   │   └── <span class="file">quiz.html</span>
+<span class="ann">       ← flip-card quiz interface</span>
+│   │
+│   ├── <span class="dir">css/</span>
+│   │   └── <span class="file">style.css</span>
+<span class="ann">       ← entire design system (single file)</span>
+│   │
+│   └── <span class="dir">js/</span>
+│       ├── <span class="file">api.js</span>
+<span class="ann">        ← shared fetch wrapper + auth helpers (loaded on every page)</span>
+│       ├── <span class="file">main.js</span>
+<span class="ann">       ← landing page: redirect to dashboard if logged in</span>
+│       ├── <span class="file">auth.js</span>
+<span class="ann">       ← login + register form logic</span>
+│       ├── <span class="file">dashboard.js</span>
+<span class="ann">   ← deck CRUD + score table</span>
+│       ├── <span class="file">deck.js</span>
+<span class="ann">       ← card CRUD for a specific deck</span>
+│       └── <span class="file">quiz.js</span>
+<span class="ann">       ← quiz engine: flip, verdict, results</span>
+│
+├── <span class="file">DEPLOYMENT.md</span>
+<span class="ann">          ← step-by-step deploy guide</span>
+└── <span class="file">README.md</span>
+<span class="ann">               ← project readme</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 4 — ARCHITECTURE & DATA FLOW
+     ================================================================ -->
+<div class="page-wrap section" id="s4">
+  <div class="section-title"><span class="section-num">04</span> Architecture &amp; Data Flow</div>
+  <p class="section-intro">How the pieces connect end-to-end.</p>
+
+  <h2>High-Level Architecture</h2>
+  <div class="arch-diagram">
+<span class="box-blue">  ┌─────────────────────────────────────────────────┐</span>
+<span class="box-blue">  │            BROWSER (Frontend)                   │</span>
+<span class="box-blue">  │  index.html / pages/*.html                      │</span>
+<span class="box-blue">  │  js/api.js  →  fetch() with JWT header          │</span>
+<span class="box-blue">  └──────────────────────┬──────────────────────────┘</span>
+<span class="arrow">                         │  HTTPS  (JSON)</span>
+<span class="arrow">                         ▼</span>
+<span class="box-green">  ┌─────────────────────────────────────────────────┐</span>
+<span class="box-green">  │            BACKEND (Node.js / Express)           │</span>
+<span class="box-green">  │                                                  │</span>
+<span class="box-green">  │  server.js → index.js (app)                      │</span>
+<span class="box-green">  │  ├── helmet()        (security headers)          │</span>
+<span class="box-green">  │  ├── cors()          (origin whitelist)          │</span>
+<span class="box-green">  │  ├── express.json()  (parse request body)        │</span>
+<span class="box-green">  │  │                                               │</span>
+<span class="box-green">  │  ├── /api/auth   → auth.routes   → auth.ctrl     │</span>
+<span class="box-green">  │  ├── /api/decks  → deck.routes   → deck.ctrl     │</span>
+<span class="box-green">  │  ├── /api/decks/:id/cards → card.routes          │</span>
+<span class="box-green">  │  └── /api/quiz   → quiz.routes   → quiz.ctrl     │</span>
+<span class="box-green">  │                                                  │</span>
+<span class="box-green">  │  authMiddleware verifies JWT on protected routes │</span>
+<span class="box-green">  └──────────────────────┬──────────────────────────┘</span>
+<span class="arrow">                         │  Mongoose ODM</span>
+<span class="arrow">                         ▼</span>
+<span class="box-yellow">  ┌─────────────────────────────────────────────────┐</span>
+<span class="box-yellow">  │            MongoDB Atlas (cloud)                 │</span>
+<span class="box-yellow">  │  collections:  users  decks  cards  scores       │</span>
+<span class="box-yellow">  └─────────────────────────────────────────────────┘</span>
+  </div>
+
+  <h2>Request Lifecycle (authenticated endpoint)</h2>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <strong>Browser calls api.js fetch wrapper</strong>
+        <p>The wrapper reads the JWT from <code>localStorage</code> and attaches it as an <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <strong>Express receives the request</strong>
+        <p><code>helmet</code>, <code>cors</code>, and <code>express.json()</code> middleware run first. The matching router is selected.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <strong>authMiddleware verifies the JWT</strong>
+        <p><code>jsonwebtoken.verify()</code> checks signature and expiry. If valid, <code>req.userId</code> is set. If invalid, a 401 is returned immediately.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-content">
+        <strong>Controller executes the business logic</strong>
+        <p>Uses <code>req.userId</code> to scope all database queries to the authenticated user. Calls Mongoose methods.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-content">
+        <strong>Mongoose talks to Atlas</strong>
+        <p>The query is serialised over a pooled TLS connection. Atlas executes it and returns the result.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div class="flow-content">
+        <strong>Controller sends JSON response</strong>
+        <p>On success: <code>res.json(data)</code>. On error: <code>next(err)</code> bubbles to the global <code>errorHandler</code> which sends <code>{ error: "..." }</code>.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">7</div>
+      <div class="flow-content">
+        <strong>Frontend renders the result</strong>
+        <p>The <code>api.js</code> wrapper resolves the promise. The page's JS function inserts HTML into the DOM.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 5 — DATABASE MODELS
+     ================================================================ -->
+<div class="page-wrap section" id="s5">
+  <div class="section-title"><span class="section-num">05</span> Database Models</div>
+  <p class="section-intro">
+    All data is stored in MongoDB Atlas. Mongoose defines four collections
+    via schemas. Below is each schema with field explanations and the actual
+    source code.
+  </p>
+
+  <h2>User</h2>
+  <p>Represents an account. Passwords are never stored in plain text.</p>
+  <pre><span class="lang-label">user.model.js</span><code>
+<span class="kw">const</span> <span class="obj">userSchema</span> = <span class="kw">new</span> <span class="cls">mongoose</span>.<span class="fn">Schema</span>({
+  <span class="prop">username</span>:     { <span class="prop">type</span>: String,  <span class="prop">required</span>: <span class="kw">true</span>, <span class="prop">unique</span>: <span class="kw">true</span>, <span class="prop">trim</span>: <span class="kw">true</span> },
+  <span class="prop">email</span>:        { <span class="prop">type</span>: String,  <span class="prop">required</span>: <span class="kw">true</span>, <span class="prop">unique</span>: <span class="kw">true</span>, <span class="prop">lowercase</span>: <span class="kw">true</span> },
+  <span class="prop">passwordHash</span>: { <span class="prop">type</span>: String,  <span class="prop">required</span>: <span class="kw">true</span> },  <span class="cmt">// bcrypt hash, cost=12</span>
+}, { <span class="prop">timestamps</span>: <span class="kw">true</span> });   <span class="cmt">// adds createdAt + updatedAt automatically</span>
+</code></pre>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>username</code></td><td>String</td><td>Unique, trimmed. Shown in the dashboard greeting.</td></tr>
+        <tr><td><code>email</code></td><td>String</td><td>Unique, lowercased. Used for login.</td></tr>
+        <tr><td><code>passwordHash</code></td><td>String</td><td>bcrypt output. Never the raw password.</td></tr>
+        <tr><td><code>createdAt</code></td><td>Date</td><td>Auto-added by Mongoose <code>timestamps</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Deck</h2>
+  <p>A collection of cards belonging to one user.</p>
+  <pre><span class="lang-label">deck.model.js</span><code>
+<span class="kw">const</span> <span class="obj">deckSchema</span> = <span class="kw">new</span> <span class="cls">mongoose</span>.<span class="fn">Schema</span>({
+  <span class="prop">owner</span>:       { <span class="prop">type</span>: mongoose.Schema.Types.ObjectId, <span class="prop">ref</span>: <span class="str">'User'</span>, <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">title</span>:       { <span class="prop">type</span>: String, <span class="prop">required</span>: <span class="kw">true</span>, <span class="prop">trim</span>: <span class="kw">true</span> },
+  <span class="prop">description</span>: { <span class="prop">type</span>: String, <span class="prop">trim</span>: <span class="kw">true</span> },
+  <span class="prop">language</span>:   { <span class="prop">type</span>: String, <span class="prop">trim</span>: <span class="kw">true</span>, <span class="prop">default</span>: <span class="str">'general'</span> },
+}, { <span class="prop">timestamps</span>: <span class="kw">true</span> });
+</code></pre>
+
+  <h2>Card</h2>
+  <p>A single flashcard. Always belongs to a deck. The <code>cardType</code> field controls rendering.</p>
+  <pre><span class="lang-label">card.model.js</span><code>
+<span class="kw">const</span> <span class="obj">cardSchema</span> = <span class="kw">new</span> <span class="cls">mongoose</span>.<span class="fn">Schema</span>({
+  <span class="prop">deck</span>:     { <span class="prop">type</span>: mongoose.Schema.Types.ObjectId, <span class="prop">ref</span>: <span class="str">'Deck'</span>, <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">cardType</span>: { <span class="prop">type</span>: String, <span class="prop">enum</span>: [<span class="str">'text'</span>, <span class="str">'code'</span>], <span class="prop">default</span>: <span class="str">'text'</span> },
+  <span class="prop">front</span>:    { <span class="prop">type</span>: String, <span class="prop">required</span>: <span class="kw">true</span> },  <span class="cmt">// question or code prompt</span>
+  <span class="prop">back</span>:     { <span class="prop">type</span>: String, <span class="prop">required</span>: <span class="kw">true</span> },  <span class="cmt">// answer / explanation</span>
+  <span class="prop">language</span>: { <span class="prop">type</span>: String, <span class="prop">trim</span>: <span class="kw">true</span> },      <span class="cmt">// e.g. "javascript", "python"</span>
+}, { <span class="prop">timestamps</span>: <span class="kw">true</span> });
+</code></pre>
+
+  <h2>Score</h2>
+  <p>A quiz result snapshot. Never mutated after creation.</p>
+  <pre><span class="lang-label">score.model.js</span><code>
+<span class="kw">const</span> <span class="obj">scoreSchema</span> = <span class="kw">new</span> <span class="cls">mongoose</span>.<span class="fn">Schema</span>({
+  <span class="prop">user</span>:    { <span class="prop">type</span>: mongoose.Schema.Types.ObjectId, <span class="prop">ref</span>: <span class="str">'User'</span>,  <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">deck</span>:    { <span class="prop">type</span>: mongoose.Schema.Types.ObjectId, <span class="prop">ref</span>: <span class="str">'Deck'</span>,  <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">correct</span>: { <span class="prop">type</span>: Number, <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">total</span>:   { <span class="prop">type</span>: Number, <span class="prop">required</span>: <span class="kw">true</span> },
+  <span class="prop">takenAt</span>: { <span class="prop">type</span>: Date,   <span class="prop">default</span>: Date.now },
+});
+</code></pre>
+
+  <h2>Entity Relationship</h2>
+  <div class="arch-diagram">
+  <span class="box-blue">User</span>
+  <span class="arrow">  │  _id, username, email, passwordHash</span>
+  <span class="arrow">  │</span>
+  <span class="arrow">  ├──(owner)──▶</span> <span class="box-green">Deck</span>   <span class="arrow">  _id, title, description, language</span>
+  <span class="arrow">  │              │</span>
+  <span class="arrow">  │              └──(deck)──▶</span> <span class="box-yellow">Card</span>  <span class="arrow"> _id, front, back, cardType, language</span>
+  <span class="arrow">  │</span>
+  <span class="arrow">  └──(user)──▶</span> <span class="box-red">Score</span>  <span class="arrow"> _id, deck (ref), correct, total, takenAt</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 6 — API REFERENCE
+     ================================================================ -->
+<div class="page-wrap section" id="s6">
+  <div class="section-title"><span class="section-num">06</span> Backend API Reference</div>
+  <p class="section-intro">
+    All endpoints served at <code>http://localhost:5000/api</code> (or the production base URL).
+    Endpoints marked <strong>Auth Required</strong> need an <code>Authorization: Bearer &lt;token&gt;</code> header.
+  </p>
+
+  <h2>Health</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Auth</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/api/health</code></td><td>—</td><td>Returns <code>{ status: "ok" }</code>. Use to check if the server is up.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Auth — <code>/api/auth</code></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Body</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/register</code></td>
+          <td><code>username, email, password</code></td>
+          <td><code>{ token, user: { id, username, email } }</code> — 201</td>
+        </tr>
+        <tr>
+          <td><span class="method m-post">POST</span></td>
+          <td><code>/login</code></td>
+          <td><code>email, password</code></td>
+          <td><code>{ token, user: { id, username, email } }</code> — 200</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pre><span class="lang-label">Example — register</span><code>
+<span class="kw">POST</span> /api/auth/register
+Content-Type: application/json
+
+{
+  <span class="str">"username"</span>: <span class="str">"rohey"</span>,
+  <span class="str">"email"</span>:    <span class="str">"rohey@example.com"</span>,
+  <span class="str">"password"</span>: <span class="str">"superSecret99"</span>
+}
+
+<span class="cmt">// Response 201</span>
+{
+  <span class="str">"token"</span>: <span class="str">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>,
+  <span class="str">"user"</span>:  { <span class="str">"id"</span>: <span class="str">"66abc..."</span>, <span class="str">"username"</span>: <span class="str">"rohey"</span>, <span class="str">"email"</span>: <span class="str">"rohey@example.com"</span> }
+}
+</code></pre>
+
+  <h2>Decks — <code>/api/decks</code> <em>(Auth Required)</em></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/</code></td><td>List all decks owned by the logged-in user</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td><code>/</code></td><td>Create a new deck. Body: <code>{ title, description?, language? }</code></td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/:id</code></td><td>Get a single deck by ID (must be the owner)</td></tr>
+        <tr><td><span class="method m-put">PUT</span></td><td><code>/:id</code></td><td>Update deck title / description / language</td></tr>
+        <tr><td><span class="method m-delete">DELETE</span></td><td><code>/:id</code></td><td>Permanently delete a deck</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Cards — <code>/api/decks/:deckId/cards</code> <em>(Auth Required)</em></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/</code></td><td>List all cards in the deck</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td><code>/</code></td><td>Add a card. Body: <code>{ front, back, cardType?, language? }</code></td></tr>
+        <tr><td><span class="method m-put">PUT</span></td><td><code>/:id</code></td><td>Edit a card</td></tr>
+        <tr><td><span class="method m-delete">DELETE</span></td><td><code>/:id</code></td><td>Remove a card</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Quiz — <code>/api/quiz</code> <em>(Auth Required)</em></h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/scores</code></td><td>Return last 20 quiz scores for the user, with deck title populated</td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td><code>/:deckId</code></td><td>Return deck info + shuffled cards array ready for a quiz session</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td><code>/:deckId/score</code></td><td>Save a result. Body: <code>{ correct, total }</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Error Response Shape</h2>
+  <p>All errors return a consistent JSON body:</p>
+  <pre><span class="lang-label">error shape</span><code>
+{
+  <span class="str">"error"</span>: <span class="str">"Human-readable error message"</span>
+}
+</code></pre>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>400</td><td>Bad request — missing required fields</td></tr>
+        <tr><td>401</td><td>Unauthorised — no token, invalid token, or wrong password</td></tr>
+        <tr><td>404</td><td>Resource not found (or belongs to another user)</td></tr>
+        <tr><td>409</td><td>Conflict — username or email already taken</td></tr>
+        <tr><td>500</td><td>Unhandled server error</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 7 — AUTHENTICATION SYSTEM
+     ================================================================ -->
+<div class="page-wrap section" id="s7">
+  <div class="section-title"><span class="section-num">07</span> Authentication System</div>
+  <p class="section-intro">
+    How passwords are hashed, how tokens are issued, and how protected routes
+    verify identity on every request.
+  </p>
+
+  <h2>Registration Flow</h2>
+  <pre><span class="lang-label">auth.controller.js — register()</span><code>
+<span class="kw">async function</span> <span class="fn">register</span>(req, res, next) {
+  <span class="kw">const</span> { <span class="var">username</span>, <span class="var">email</span>, <span class="var">password</span> } = req.body;
+
+  <span class="cmt">// 1. Validate that all fields are present</span>
+  <span class="kw">if</span> (!username || !email || !password) { <span class="kw">return</span> <span class="fn">next</span>(badRequest()); }
+
+  <span class="cmt">// 2. Prevent duplicates</span>
+  <span class="kw">const</span> <span class="var">existing</span> = <span class="kw">await</span> User.<span class="fn">findOne</span>({ $or: [{ email }, { username }] });
+  <span class="kw">if</span> (existing) { <span class="kw">return</span> <span class="fn">next</span>(conflict()); }
+
+  <span class="cmt">// 3. Hash the password — cost factor 12 (~250ms per hash)</span>
+  <span class="kw">const</span> <span class="var">passwordHash</span> = <span class="kw">await</span> bcrypt.<span class="fn">hash</span>(password, <span class="num">12</span>);
+
+  <span class="cmt">// 4. Persist the user</span>
+  <span class="kw">const</span> <span class="var">user</span> = <span class="kw">await</span> User.<span class="fn">create</span>({ username, email, passwordHash });
+
+  <span class="cmt">// 5. Issue a JWT — signed with the server's secret</span>
+  <span class="kw">const</span> <span class="var">token</span> = jwt.<span class="fn">sign</span>({ <span class="prop">userId</span>: user._id }, process.env.JWT_SECRET,
+                           { <span class="prop">expiresIn</span>: process.env.JWT_EXPIRES_IN });
+
+  res.<span class="fn">status</span>(<span class="num">201</span>).<span class="fn">json</span>({ token, user: { <span class="prop">id</span>: user._id, username, email } });
+}
+</code></pre>
+
+  <h2>JWT Middleware</h2>
+  <pre><span class="lang-label">auth.middleware.js</span><code>
+<span class="kw">function</span> <span class="fn">authMiddleware</span>(req, res, next) {
+  <span class="kw">const</span> <span class="var">authHeader</span> = req.headers.authorization;
+
+  <span class="cmt">// Must be "Bearer &lt;token&gt;"</span>
+  <span class="kw">if</span> (!authHeader || !authHeader.<span class="fn">startsWith</span>(<span class="str">'Bearer '</span>)) {
+    <span class="kw">return</span> res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ <span class="prop">error</span>: <span class="str">'No token provided'</span> });
+  }
+
+  <span class="kw">const</span> <span class="var">token</span> = authHeader.<span class="fn">split</span>(<span class="str">' '</span>)[<span class="num">1</span>];
+
+  <span class="kw">try</span> {
+    <span class="kw">const</span> <span class="var">decoded</span> = jwt.<span class="fn">verify</span>(token, process.env.JWT_SECRET);
+    req.userId = decoded.userId;  <span class="cmt">// available to every controller after this</span>
+    <span class="fn">next</span>();
+  } <span class="kw">catch</span> {
+    res.<span class="fn">status</span>(<span class="num">401</span>).<span class="fn">json</span>({ <span class="prop">error</span>: <span class="str">'Invalid or expired token'</span> });
+  }
+}
+</code></pre>
+
+  <h2>Frontend Token Management</h2>
+  <pre><span class="lang-label">api.js — helpers</span><code>
+<span class="cmt">// Persist after login/register</span>
+<span class="kw">function</span> <span class="fn">saveAuth</span>(token, user) {
+  localStorage.<span class="fn">setItem</span>(<span class="str">'cc_token'</span>, token);
+  localStorage.<span class="fn">setItem</span>(<span class="str">'cc_user'</span>, JSON.<span class="fn">stringify</span>(user));
+}
+
+<span class="cmt">// Attach token to every API request automatically</span>
+<span class="kw">async function</span> <span class="fn">apiFetch</span>(path, options = {}) {
+  <span class="kw">const</span> <span class="var">token</span> = localStorage.<span class="fn">getItem</span>(<span class="str">'cc_token'</span>);
+  <span class="kw">const</span> <span class="var">headers</span> = { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> };
+  <span class="kw">if</span> (token) headers[<span class="str">'Authorization'</span>] = <span class="str">`Bearer ${token}`</span>;
+
+  <span class="kw">const</span> <span class="var">res</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`${API_BASE}${path}`</span>, { ...options, headers });
+  <span class="kw">const</span> <span class="var">data</span> = <span class="kw">await</span> res.<span class="fn">json</span>();
+
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="cls">Error</span>(data.error || <span class="str">`Request failed`</span>);
+  <span class="kw">return</span> data;
+}
+</code></pre>
+
+  <div class="callout callout-tip">
+    <strong>Token storage trade-off:</strong> localStorage is used here for simplicity.
+    In a higher-security context, <code>httpOnly</code> cookies would be preferred since
+    they can't be read by JavaScript at all, protecting against XSS.
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 8 — FRONTEND PAGES
+     ================================================================ -->
+<div class="page-wrap section" id="s8">
+  <div class="section-title"><span class="section-num">08</span> Frontend Pages</div>
+  <p class="section-intro">Every HTML page, what it does, and how the user navigates between them.</p>
+
+  <h2>Navigation Map</h2>
+  <div class="arch-diagram">
+  <span class="box-blue">index.html</span>        <span class="arrow">← public landing page</span>
+  <span class="arrow">     │</span>
+  <span class="arrow">     ├── (not logged in) ──▶</span> <span class="box-green">pages/register.html</span>  <span class="arrow">──▶ dashboard</span>
+  <span class="arrow">     ├── (not logged in) ──▶</span> <span class="box-green">pages/login.html</span>     <span class="arrow">──▶ dashboard</span>
+  <span class="arrow">     └── (logged in)     ──▶</span> <span class="box-yellow">pages/dashboard.html</span>
+  <span class="arrow">                                   │</span>
+  <span class="arrow">                                   ├── click Open deck ──▶</span> <span class="box-yellow">pages/deck.html?id=xxx</span>
+  <span class="arrow">                                   │                            │</span>
+  <span class="arrow">                                   │                            └── Start Quiz ──▶</span> <span class="box-red">pages/quiz.html?id=xxx</span>
+  <span class="arrow">                                   └── click Log Out  ──▶ index.html</span>
+  </div>
+
+  <h2>Page Descriptions</h2>
+
+  <h3>Landing page — <code>index.html</code></h3>
+  <p>Marketing/splash page. Shows the tagline, feature description, and CTA buttons.
+  If a JWT is already in <code>localStorage</code> the user is immediately redirected to
+  the dashboard (handled by <code>main.js</code>).</p>
+
+  <h3>Register — <code>pages/register.html</code></h3>
+  <p>Collects username, email, password. Validates password length (≥8 chars) client-side
+  before calling <code>POST /api/auth/register</code>. On success, saves the token and
+  redirects to the dashboard.</p>
+
+  <h3>Login — <code>pages/login.html</code></h3>
+  <p>Collects email and password. Calls <code>POST /api/auth/login</code>. On success,
+  saves the token and user object, redirects to dashboard.</p>
+
+  <h3>Dashboard — <code>pages/dashboard.html</code></h3>
+  <p>
+    When a user first logs in, this is the page they land on. At the top they are greeted
+    by name, and their entire deck collection is laid out in a responsive card grid below.
+    Each deck card displays the language tag, the deck title, and a short description, and
+    carries three action buttons — <strong>Open</strong> (goes to the deck detail page),
+    <strong>Edit</strong> (opens a modal form to rename or update the deck), and
+    <strong>Delete</strong> (asks for confirmation, then permanently removes the deck).
+    A floating "+ New Deck" button in the top-right corner opens the same creation modal.
+    Below the deck grid, the page shows a table of the user's last 20 quiz scores, including
+    the deck name, how many cards they got right, the percentage, and the date taken.
+  </p>
+
+  <h3>Deck Detail — <code>pages/deck.html?id=&lt;deckId&gt;</code></h3>
+  <p>
+    This page is reached by clicking <strong>Open</strong> on any deck card in the dashboard.
+    The deck's ID is passed in the URL as a query parameter (e.g. <code>?id=66abc...</code>),
+    which the page reads on load to fetch the correct data from the API. The header area
+    shows the deck's language badge, title, and description, alongside a
+    <strong>▶ Start Quiz</strong> button that links directly to the quiz page for this deck.
+    The body of the page lists every card in the deck, numbered, each showing both the front
+    (the question or prompt) and the back (the answer). Cards marked as <code>code</code> type
+    render their content in a monospaced dark box to make code easy to read. An
+    "+ Add Card" button opens a modal where the user can write a new card's front, back,
+    choose text or code type, and optionally specify a language hint. Existing cards can
+    be edited or deleted via the action buttons on each card row.
+  </p>
+
+  <h3>Quiz — <code>pages/quiz.html?id=&lt;deckId&gt;</code></h3>
+  <p>
+    The quiz page fetches the deck's cards from the server via <code>GET /api/quiz/:deckId</code>,
+    which returns them in a randomly shuffled order so every quiz session feels fresh.
+    Cards are shown one at a time as a large flashcard — only the front (the question) is
+    visible at first. A progress bar at the top shows how far through the deck the user is.
+    When the user is ready to see the answer, they click the card or press
+    <kbd>Space</kbd> and the card performs a smooth 3D flip animation to reveal the back.
+    Two verdict buttons then appear: <strong>Got it</strong> (keyboard: <kbd>→</kbd> or <kbd>1</kbd>)
+    and <strong>Missed it</strong> (keyboard: <kbd>←</kbd> or <kbd>2</kbd>). The user's choice
+    advances to the next card. After the final card, a results screen shows the total score,
+    a colour-coded percentage bar, and a short motivational message. The result is
+    automatically saved to the database via <code>POST /api/quiz/:deckId/score</code> so it
+    appears in the dashboard's score history.
+  </p>
+</div>
+
+<!-- ================================================================
+     SECTION 9 — KEY CODE WALKTHROUGHS
+     ================================================================ -->
+<div class="page-wrap section" id="s9">
+  <div class="section-title"><span class="section-num">09</span> Key Code Walkthroughs</div>
+  <p class="section-intro">Line-by-line explanations of the most important pieces of the codebase.</p>
+
+  <h2>Owner-Scoped DB Queries</h2>
+  <p>
+    Every database query in the deck and card controllers filters by <code>owner: req.userId</code>.
+    This is the primary security control that prevents one user from reading or
+    modifying another user's data.
+  </p>
+  <pre><span class="lang-label">deck.controller.js — getDeck()</span><code>
+<span class="kw">async function</span> <span class="fn">getDeck</span>(req, res, next) {
+  <span class="cmt">// req.userId is set by authMiddleware after verifying the JWT</span>
+  <span class="kw">const</span> <span class="var">deck</span> = <span class="kw">await</span> Deck.<span class="fn">findOne</span>({
+    <span class="prop">_id</span>:   req.params.id,
+    <span class="prop">owner</span>: req.userId   <span class="cmt">// ← CRUCIAL — the deck must belong to this user</span>
+  });
+
+  <span class="kw">if</span> (!deck) {
+    <span class="cmt">// Returns 404 whether the deck doesn't exist OR belongs to someone else</span>
+    <span class="cmt">// This avoids leaking information about other users' data</span>
+    <span class="kw">const</span> <span class="var">err</span> = <span class="kw">new</span> <span class="cls">Error</span>(<span class="str">'Deck not found'</span>);
+    err.statusCode = <span class="num">404</span>;
+    <span class="kw">return</span> <span class="fn">next</span>(err);
+  }
+  res.<span class="fn">json</span>(deck);
+}
+</code></pre>
+
+  <h2>Fisher-Yates Card Shuffle</h2>
+  <p>
+    The quiz endpoint shuffles the deck's cards using the Fisher-Yates algorithm —
+    statistically uniform and far better than <code>sort(() => Math.random() - 0.5)</code>.
+  </p>
+  <pre><span class="lang-label">quiz.controller.js — getQuizCards()</span><code>
+<span class="kw">const</span> <span class="var">cards</span> = <span class="kw">await</span> Card.<span class="fn">find</span>({ <span class="prop">deck</span>: deck._id });
+
+<span class="cmt">// Fisher-Yates shuffle: O(n), each permutation equally likely</span>
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> = cards.length - <span class="num">1</span>; i > <span class="num">0</span>; i--) {
+  <span class="kw">const</span> <span class="var">j</span> = Math.<span class="fn">floor</span>(Math.<span class="fn">random</span>() * (i + <span class="num">1</span>));
+  [cards[i], cards[j]] = [cards[j], cards[i]];  <span class="cmt">// ES6 destructuring swap</span>
+}
+
+res.<span class="fn">json</span>({ deck, cards });
+</code></pre>
+
+  <h2>Global Error Handler</h2>
+  <p>
+    Controllers never <code>res.status(500).json()</code> directly. Instead they call
+    <code>next(err)</code>. Express routes the error to this single handler.
+  </p>
+  <pre><span class="lang-label">middlewares/errorHandler.js</span><code>
+<span class="kw">function</span> <span class="fn">errorHandler</span>(err, req, res, next) {
+  <span class="kw">const</span> <span class="var">statusCode</span> = err.statusCode || <span class="num">500</span>;
+  <span class="kw">const</span> <span class="var">message</span>    = err.message    || <span class="str">'Internal server error'</span>;
+
+  <span class="cmt">// Only log full stack traces in development</span>
+  <span class="kw">if</span> (process.env.NODE_ENV !== <span class="str">'production'</span>) {
+    console.<span class="fn">error</span>(err.stack);
+  }
+
+  res.<span class="fn">status</span>(statusCode).<span class="fn">json</span>({ <span class="prop">error</span>: message });
+}
+</code></pre>
+
+  <h2>Defensive HTML Escaping</h2>
+  <p>
+    Any user-generated content inserted into the DOM uses the <code>escHtml()</code>
+    helper to prevent Cross-Site Scripting (XSS) attacks.
+  </p>
+  <pre><span class="lang-label">dashboard.js + deck.js — escHtml()</span><code>
+<span class="kw">function</span> <span class="fn">escHtml</span>(str) {
+  <span class="kw">return</span> String(str)
+    .<span class="fn">replace</span>(/&/g,  <span class="str">'&amp;amp;'</span>)
+    .<span class="fn">replace</span>(/</g,  <span class="str">'&amp;lt;'</span>)
+    .<span class="fn">replace</span>(/>/g,  <span class="str">'&amp;gt;'</span>)
+    .<span class="fn">replace</span>(/"/g,  <span class="str">'&amp;quot;'</span>);
+}
+
+<span class="cmt">// Usage — safe innerHTML insertion:</span>
+grid.innerHTML = decks.<span class="fn">map</span>(d => <span class="str">`&lt;h3&gt;${<span class="fn">escHtml</span>(d.title)}&lt;/h3&gt;`</span>).<span class="fn">join</span>(<span class="str">''</span>);
+</code></pre>
+</div>
+
+<!-- ================================================================
+     SECTION 10 — QUIZ ENGINE
+     ================================================================ -->
+<div class="page-wrap section" id="s10">
+  <div class="section-title"><span class="section-num">10</span> Quiz Engine</div>
+  <p class="section-intro">
+    The entire quiz runs in the browser. No server round-trips happen between
+    cards — only at start (fetch cards) and end (submit score).
+  </p>
+
+  <h2>State Machine</h2>
+  <div class="arch-diagram">
+  <span class="box-blue"> LOADING</span>  <span class="arrow">──▶</span>  <span class="box-green">CARD FRONT</span>  <span class="arrow">──(flip)──▶</span>  <span class="box-yellow">CARD BACK</span>
+  <span class="arrow">                                               │</span>
+  <span class="arrow">                              ┌─ got it ──────┤</span>
+  <span class="arrow">                              └─ missed it ───┘</span>
+  <span class="arrow">                                               │</span>
+  <span class="arrow">                        more cards? ──▶ CARD FRONT</span>
+  <span class="arrow">                        no more?    ──▶</span> <span class="box-red">RESULTS</span>
+  </div>
+
+  <h2>CSS 3D Flip Animation</h2>
+  <p>The card flip is achieved purely with CSS transforms — no JavaScript animation library needed.</p>
+  <pre><span class="lang-label">style.css — flashcard flip</span><code>
+<span class="cmt">/* The outer container sets the 3D perspective */</span>
+<span class="cls">.flashcard</span> {
+  perspective: <span class="num">1000px</span>;
+}
+
+<span class="cmt">/* The inner wrapper preserves 3D context for children */</span>
+<span class="cls">.flashcard-inner</span> {
+  transform-style: preserve-3d;
+  transition: transform <span class="num">0.45s</span> cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+<span class="cmt">/* Adding .flipped rotates the inner wrapper 180° */</span>
+<span class="cls">.flashcard.flipped</span> <span class="cls">.flashcard-inner</span> {
+  transform: rotateY(<span class="num">180deg</span>);
+}
+
+<span class="cmt">/* The back face is pre-rotated so it reads correctly when flipped */</span>
+<span class="cls">.flashcard-back</span> {
+  backface-visibility: hidden;
+  transform: rotateY(<span class="num">180deg</span>);   <span class="cmt">/* hidden until parent flips */</span>
+}
+</code></pre>
+
+  <h2>JavaScript Flip + Verdict</h2>
+  <pre><span class="lang-label">quiz.js — core interaction</span><code>
+<span class="kw">let</span> <span class="var">currentIdx</span> = <span class="num">0</span>;
+<span class="kw">let</span> <span class="var">correct</span>    = <span class="num">0</span>;
+<span class="kw">let</span> <span class="var">isFlipped</span>  = <span class="kw">false</span>;
+
+<span class="kw">function</span> <span class="fn">flipCard</span>() {
+  <span class="kw">if</span> (isFlipped) <span class="kw">return</span>;        <span class="cmt">// can only flip once per card</span>
+  isFlipped = <span class="kw">true</span>;
+  flashcard.classList.<span class="fn">add</span>(<span class="str">'flipped'</span>);   <span class="cmt">// triggers CSS transition above</span>
+  flipHint.classList.<span class="fn">add</span>(<span class="str">'hidden'</span>);
+  verdictBtns.classList.<span class="fn">remove</span>(<span class="str">'hidden'</span>);
+}
+
+<span class="kw">function</span> <span class="fn">recordVerdict</span>(gotIt) {
+  <span class="kw">if</span> (gotIt) correct++;
+  currentIdx++;
+  currentIdx < cardQueue.length ? <span class="fn">showCard</span>(currentIdx) : <span class="fn">endQuiz</span>();
+}
+
+<span class="cmt">// Keyboard shortcut support</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, (e) => {
+  <span class="kw">if</span> (!isFlipped) <span class="kw">return</span>;
+  <span class="kw">if</span> (e.key === <span class="str">'ArrowRight'</span> || e.key === <span class="str">'1'</span>) <span class="fn">recordVerdict</span>(<span class="kw">true</span>);
+  <span class="kw">if</span> (e.key === <span class="str">'ArrowLeft'</span>  || e.key === <span class="str">'2'</span>) <span class="fn">recordVerdict</span>(<span class="kw">false</span>);
+});
+</code></pre>
+</div>
+
+<!-- ================================================================
+     SECTION 11 — SECURITY
+     ================================================================ -->
+<div class="page-wrap section" id="s11">
+  <div class="section-title"><span class="section-num">11</span> Security Considerations</div>
+  <p class="section-intro">An overview of what protections are in place and what to be aware of.</p>
+
+  <h2>What is protected</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Threat</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Password storage</td><td>bcrypt with cost factor 12 — even if the DB leaks, hashes can't be reversed quickly</td></tr>
+        <tr><td>Session theft via XSS</td><td>All user content is escaped with <code>escHtml()</code> before DOM insertion</td></tr>
+        <tr><td>Broken access control</td><td>Every DB query filters by <code>owner: req.userId</code> — users can't access each other's data</td></tr>
+        <tr><td>Clickjacking</td><td><code>helmet()</code> sets <code>X-Frame-Options: SAMEORIGIN</code></td></tr>
+        <tr><td>MIME sniffing</td><td><code>helmet()</code> sets <code>X-Content-Type-Options: nosniff</code></td></tr>
+        <tr><td>Forged tokens</td><td>JWTs are signed with a secret only the server knows; tampering is detected</td></tr>
+        <tr><td>Expired sessions</td><td>JWTs expire after 7 days; <code>jwt.verify()</code> rejects expired tokens</td></tr>
+        <tr><td>Brute-force login</td><td><code>express-rate-limit</code> package is installed and ready to be applied to <code>/api/auth</code></td></tr>
+        <tr><td>Secret leakage</td><td>Secrets live in <code>.env</code> which is excluded from git via <code>.gitignore</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Known limitations (future improvements)</h2>
+  <p>
+    The most notable limitation is that the JWT is stored in <code>localStorage</code>,
+    which means any JavaScript running on the same page can technically read it. In a
+    higher-security application, the token would be stored in an <code>httpOnly</code> cookie
+    instead — a special kind of cookie that the browser will never expose to JavaScript,
+    making it invisible to any malicious scripts that might somehow end up on the page.
+  </p>
+  <p>
+    There is currently no email verification step on registration, which means anyone
+    can create an account with a fake or someone else's email address. Adding a
+    verification email before activating the account would close this gap. Similarly,
+    the <code>express-rate-limit</code> package is already installed in the project but has
+    not yet been applied to the login endpoint — wiring it in would prevent automated
+    scripts from trying thousands of passwords in quick succession (a brute-force attack).
+    That single change is highlighted in the callout below because it is the quickest
+    security improvement available.
+  </p>
+  <p>
+    Cross-Site Request Forgery (CSRF) protection is not needed in this architecture
+    because the app uses JWT tokens sent in the <code>Authorization</code> header rather
+    than cookies — CSRF attacks specifically exploit automatic cookie sending, so they
+    do not apply here.
+  </p>
+
+  <div class="callout callout-warning">
+    <strong>Before going to production:</strong> wire <code>express-rate-limit</code> onto <code>POST /api/auth/login</code>
+    to prevent brute-force password attacks. The package is already installed; it just needs to be applied.
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION 12 — EXTENDING THE PROJECT
+     ================================================================ -->
+<div class="page-wrap section" id="s12">
+  <div class="section-title"><span class="section-num">12</span> Extending the Project</div>
+  <p class="section-intro">Practical ideas for how to build on top of what's here.</p>
+
+  <h2>Suggested next features</h2>
+
+  <h3>Add rate limiting to auth (quick win)</h3>
+  <pre><span class="lang-label">index.js — add rate limiting</span><code>
+<span class="kw">const</span> rateLimit = <span class="fn">require</span>(<span class="str">'express-rate-limit'</span>);  <span class="cmt">// already installed</span>
+
+<span class="kw">const</span> <span class="var">authLimiter</span> = <span class="fn">rateLimit</span>({
+  <span class="prop">windowMs</span>: <span class="num">15</span> * <span class="num">60</span> * <span class="num">1000</span>,  <span class="cmt">// 15 minutes</span>
+  <span class="prop">max</span>: <span class="num">20</span>,                   <span class="cmt">// max 20 requests per window</span>
+  <span class="prop">message</span>: { <span class="prop">error</span>: <span class="str">'Too many requests, please try again later'</span> },
+});
+
+app.<span class="fn">use</span>(<span class="str">'/api/auth'</span>, authLimiter, <span class="fn">require</span>(<span class="str">'./routes/auth.routes'</span>));
+</code></pre>
+
+  <h3>Spaced-repetition scoring</h3>
+  <p>
+    Instead of a simple correct/incorrect count, track per-card performance
+    and use the <strong>SM-2 algorithm</strong> (the basis of Anki) to schedule
+    the next review date for each card. Add an <code>interval</code> and <code>nextReview</code>
+    field to the <code>Card</code> model.
+  </p>
+
+  <h3>Deck sharing / public decks</h3>
+  <p>
+    Add a <code>isPublic: Boolean</code> field to the <code>Deck</code> model. Create a
+    <code>GET /api/decks/public</code> endpoint that returns all public decks regardless
+    of owner. Add a "Duplicate to my account" feature.
+  </p>
+
+  <h3>Search</h3>
+  <p>
+    Add a MongoDB text index on <code>card.front</code> and <code>card.back</code>:
+  </p>
+  <pre><span class="lang-label">card.model.js — text index</span><code>
+cardSchema.<span class="fn">index</span>({ <span class="prop">front</span>: <span class="str">'text'</span>, <span class="prop">back</span>: <span class="str">'text'</span> });
+
+<span class="cmt">// Query: Card.find({ $text: { $search: "useState" } })</span>
+</code></pre>
+
+  <h3>Syntax highlighting</h3>
+  <p>
+    Load <a href="https://highlightjs.org">highlight.js</a> from a CDN and call
+    <code>hljs.highlightAll()</code> after rendering code cards. The
+    <code>language</code> field on each card is already designed to pass as the
+    language hint.
+  </p>
+
+  <h2>Architecture upgrade path</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Current</th><th>If the project grows</th></tr></thead>
+      <tbody>
+        <tr><td>Vanilla JS pages</td><td>Migrate to React or Vue for component reuse without rewriting the API</td></tr>
+        <tr><td>localStorage tokens</td><td>Switch to httpOnly cookie sessions with <code>express-session</code> + Redis</td></tr>
+        <tr><td>Single server</td><td>Containerise with Docker; add a load balancer (nginx) in front</td></tr>
+        <tr><td>Manual deploys</td><td>Add GitHub Actions CI/CD: lint → test → deploy to Render on merge to main</td></tr>
+        <tr><td>No tests</td><td>Add Jest + Supertest for API integration tests; Playwright for E2E</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip" style="margin-top:40px;">
+    <strong>How to print this guide as a PDF:</strong> Open this file in Google Chrome or Microsoft Edge →
+    press <strong>Ctrl + P</strong> (Windows) or <strong>⌘ + P</strong> (Mac) →
+    set <em>Destination</em> to <strong>Save as PDF</strong> →
+    set <em>Margins</em> to <strong>Minimum</strong> → click <strong>Save</strong>.
+  </div>
+
+  <div style="text-align:center; color: var(--ink-light); font-size: 0.8rem; margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--border);">
+    CodeCards Project Guide &nbsp;·&nbsp; Version 1.0 &nbsp;·&nbsp; June 2026
+  </div>
+</div>
+
+</body>
+</html>
