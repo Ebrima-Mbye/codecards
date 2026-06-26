@@ -4,22 +4,82 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up — CodeCards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
     />
     <link rel="stylesheet" href="../css/style.css" />
   </head>
-  <body>
+  <body class="auth-body">
     <header class="site-header">
       <a href="../index.html" class="logo">&lt;CodeCards/&gt;</a>
       <nav>
-        <a href="login.html">Log In</a>
+        <a href="login.html" class="btn btn-ghost btn-sm">Log In</a>
       </nav>
     </header>
 
-    <main>
+    <main class="auth-main">
       <div class="form-card">
+        <h2 class="form-title">Create your account</h2>
+        <p class="form-subtitle">Start building your code flashcard decks.</p>
+
+        <div id="error-msg" class="alert alert-error hidden"></div>
+
+        <form id="register-form" novalidate>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="coder123"
+              required
+              autocomplete="username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              autocomplete="email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="At least 8 characters"
+              required
+              autocomplete="new-password"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="submit-btn"
+          >
+            Create Account
+          </button>
+        </form>
+
+        <p class="form-footer">
+          Already have an account? <a href="login.html">Log In</a>
+        </p>
+      </div>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+  </body>
+</html>
         <h2 class="form-title">Create your account</h2>
         <p class="form-subtitle">Start building your code flashcard decks.</p>
 

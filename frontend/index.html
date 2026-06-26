@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CodeCards</title>
+    <title>CodeCards — Flashcards for developers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
@@ -12,22 +14,47 @@
   </head>
   <body>
     <header class="site-header">
-      <h1 class="logo">&lt;CodeCards/&gt;</h1>
+      <a href="index.html" class="logo">&lt;CodeCards/&gt;</a>
       <nav>
-        <a href="pages/login.html">Log In</a>
-        <a href="pages/register.html" class="btn btn-primary">Sign Up</a>
+        <a href="pages/login.html" class="btn btn-ghost">Log In</a>
+        <a href="pages/register.html" class="btn btn-primary">Sign Up Free</a>
       </nav>
     </header>
 
     <main class="hero">
-      <h2>Learn code syntax, one card at a time.</h2>
+      <div class="hero-badge">✦ Flashcards for developers</div>
+      <h1>
+        Learn code syntax,<br />
+        <span class="hero-gradient">one card at a time.</span>
+      </h1>
       <p>
-        Build decks of code flashcards, quiz yourself, and track your progress
-        across languages.
+        Build decks of code flashcards, quiz yourself with an interactive flip
+        experience, and track your score history across all your languages.
       </p>
-      <a href="pages/register.html" class="btn btn-primary btn-large"
-        >Get Started</a
-      >
+      <div class="hero-cta">
+        <a href="pages/register.html" class="btn btn-primary btn-large"
+          >Get Started — it's free</a
+        >
+        <a href="pages/login.html" class="btn btn-ghost btn-large">Log In</a>
+      </div>
+      <div class="hero-features">
+        <div class="hero-feature">
+          <span class="hero-feature-icon">🃏</span>
+          <span>Code flashcards</span>
+        </div>
+        <div class="hero-feature">
+          <span class="hero-feature-icon">🧠</span>
+          <span>Self-quiz mode</span>
+        </div>
+        <div class="hero-feature">
+          <span class="hero-feature-icon">📊</span>
+          <span>Score history</span>
+        </div>
+        <div class="hero-feature">
+          <span class="hero-feature-icon">🌍</span>
+          <span>Any language</span>
+        </div>
+      </div>
     </main>
 
     <script src="js/main.js"></script>

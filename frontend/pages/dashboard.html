@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard — CodeCards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="dashboard.html" class="logo">&lt;CodeCards/&gt;</a>
+      <nav>
+        <span id="greeting" class="text-muted" style="font-size: 0.9rem"></span>
+        <button id="logout-btn" class="btn btn-ghost btn-sm">Log Out</button>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <!-- Decks section -->
+      <div class="section-header">
+        <h2>My Decks</h2>
+        <button id="new-deck-btn" class="btn btn-primary btn-sm">
+          + New Deck
+        </button>
+      </div>
+
+      <div id="deck-error" class="alert alert-error hidden"></div>
+
+      <div id="decks-grid" class="deck-grid">
+        <p class="loading-text">Loading decks…</p>
+      </div>
+
+      <!-- Recent scores section -->
+      <div class="section-header" style="margin-top: var(--space-xl)">
+        <h2>Recent Scores</h2>
+      </div>
+
+      <div id="scores-list">
+        <p class="loading-text">Loading scores…</p>
+      </div>
+    </main>
+
+    <!-- Create / Edit Deck Modal -->
+    <div id="deck-modal" class="modal-overlay hidden">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 id="modal-title">New Deck</h3>
+          <button id="modal-close-btn" class="modal-close" aria-label="Close">
+            &times;
+          </button>
+        </div>
+        <div id="modal-error" class="alert alert-error hidden"></div>
+        <form id="deck-form" novalidate>
+          <input type="hidden" id="deck-id" />
+          <div class="form-group">
+            <label for="deck-title"
+              >Title <span class="optional">(required)</span></label
+            >
+            <input
+              type="text"
+              id="deck-title"
+              name="title"
+              placeholder="e.g. Python Basics"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="deck-language"
+              >Language <span class="optional">(optional)</span></label
+            >
+            <input
+              type="text"
+              id="deck-language"
+              name="language"
+              placeholder="e.g. Python"
+            />
+          </div>
+          <div class="form-group">
+            <label for="deck-description"
+              >Description <span class="optional">(optional)</span></label
+            >
+            <textarea
+              id="deck-description"
+              name="description"
+              rows="2"
+              placeholder="What's this deck about?"
+            ></textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="button" id="modal-cancel-btn" class="btn btn-ghost">
+              Cancel
+            </button>
+            <button type="submit" id="deck-submit-btn" class="btn btn-primary">
+              Create Deck
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>
